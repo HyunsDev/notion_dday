@@ -11,6 +11,7 @@ function getParameterByName(name) {
 var day_ori = getParameterByName("d");
 var name = getParameterByName("name");
 var align = getParameterByName("align");
+var text = getParameterByName("text");
 
 var dayone = new Date(Number(day_ori.slice(0,4)), Number(day_ori.slice(4,6))-1, Number(day_ori.slice(6,8)));
 var now = new Date();
@@ -19,23 +20,31 @@ var result = Math.floor(gap / (1000 * 60 * 60 * 24)) * -1;
 
 var output = "";
 
-if (result > 0) {
-    output = "D-" + String(result);
-} else if (result < 0) {
-    output = "D+" + String(result);
-} else if (result === 0) {
-    output = "D-day";
+
+
+if (text != "" && (text.indexOf("[day]") != -1)) {
+    result = result * -1
+    output = text.replace("[day]",String(result));
+} else {
+
+    if (result > 0) {
+        output = "D-" + String(result);
+    } else if (result < 0) {
+        result = result * -1
+        output = "D+" + String(result);
+    } else if (result === 0) {
+        output = "D-day";
+    }
+
+    if (name != "") {
+        output = name + " " + output;
+    }
 }
 
-if (name != "") {
-    output = name + " " + output;
-}
 
 if(day_ori == "") {
     output = "<a href=''>날짜를 잘못 선택했어요. </a>"
 }
-
-
 
 $(function() {
     if (localStorage.getItem('mode') === "night") {
