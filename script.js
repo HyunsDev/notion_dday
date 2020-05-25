@@ -23,8 +23,12 @@ var output = "";
 
 
 if (text != "" && (text.indexOf("[day]") != -1)) {
-    result = result * -1
+    if (result < 0) {
+        result = result * -1;
+    }
+    
     output = text.replace("[day]",String(result));
+
 } else {
 
     if (result > 0) {
